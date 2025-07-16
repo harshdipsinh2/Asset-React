@@ -478,7 +478,7 @@ html, body {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background: url('C:\Users\USER\Desktop\asset-management-frontend\public\premium_photo-1661443781814-333019eaad2d.jpeg') center/cover no-repeat; /* Relative path */
+background-image: url("../../public/premium_photo-1661443781814-333019eaad2d.jpeg");
     display: flex;
     justify-content: center;
     align-items: center;
