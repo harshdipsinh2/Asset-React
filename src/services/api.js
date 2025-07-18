@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://localhost:7164/api";
+const API_BASE_URL = "https://asset-isoo.onrender.com";
 const getToken = () => localStorage.getItem("token");
 
 const api = axios.create({
