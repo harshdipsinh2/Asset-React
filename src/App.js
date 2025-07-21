@@ -55,15 +55,10 @@ const AppRoutes = () => {
     checkSubscription();
   }, [isAuthenticated]);
 
-  // Comment out subscription check redirect
-  // if (isAuthenticated && !isSubscribed && !hasGrantedBasicAccess && 
-  //     location.pathname !== "/subscribe" && 
-  //     location.pathname !== "/login" && 
-  //     location.pathname !== "/subscription-success")
-  // {
-  //   return <Navigate to="/subscribe" replace />;
-  // }
-
+  if (isAuthenticated && !isSubscribed && !hasGrantedBasicAccess && location.pathname !== "/subscribe" && location.pathname !== "/login" && location.pathname !== "/subscription-success")
+    {
+     return <Navigate to="/subscribe" replace />;
+    }
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -71,11 +66,25 @@ const AppRoutes = () => {
       <Route path="/register" element={<Auth isRegistering />} />
       <Route path="/forgot-password" element={<Auth isForgotPassword />} />
       <Route path="/reset-password/:token" element={<Auth isResettingPassword />} />
-      <Route path="/subscribe" element={<Subscription onBasicAccess={() => setHasGrantedBasicAccess(true)} />} />
+      <Route
+        path="/subscribe"
+        element={<Subscription onBasicAccess={() => setHasGrantedBasicAccess(true)} />}
+      />
+      {/* <Route path="/subscription-success" element={<SubscriptionSuccess />} /> */}
 
-      {/* Remove the authentication check and make all routes accessible */}
-      <Route path="/*" element={<AppLayout />}>
+      {/* Protected Routes */}
+      <Route
+        path="/*"
+        element={
+          isAuthenticated ? (
+            <AppLayout />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      >
         <Route path="dashboard" element={<Dashboard />} />
+        {/* Make the paths relative by removing the leading '/' */}
         <Route path="profile" element={<Profile />} />
         <Route path="employee-list" element={<EmployeeList />} />
         <Route path="insert-employee" element={<InsertEmployee />} />
@@ -91,13 +100,15 @@ const AppRoutes = () => {
         <Route path="assign-physical-asset" element={<AssignPhysicalAsset />} />
         <Route path="view-physical-asset" element={<ViewPhysicalAsset />} />
         <Route path="request-asset" element={<RequestAsset />} />
-        
-        {/* Remove isSubscribed condition */}
+        {isSubscribed && (
+        <>
         <Route path="users" element={<UserList />} />
         <Route path="roles" element={<RoleList />} />
         <Route path="analysis" element={<Analysis />} />
         <Route path="approve-requests" element={<RequestApproval />} />
-        
+        </>
+        )}
+        {/* The catch-all route should also be relative if you want it under AppLayout */}
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Route>
     </Routes>

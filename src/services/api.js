@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://asseiapi-k53b.onrender.com";
+const API_BASE_URL = "https://asseiapi-k53b.onrender.com/api";
 const getToken = () => localStorage.getItem("token");
 
 const api = axios.create({
